@@ -1,0 +1,22 @@
+{
+  "name": "koibanx-backend-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "run": "node $NODE_DEBUG_OPTION app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "bcrypt-nodejs": "0.0.3",
+    "config": "^3.3.6",
+    "dotenv": "^10.0.0",
+    "express": "~4.17.1",
+    "express-validator": "^6.12.0",
+    "logger": "0.0.1",
+    "mongoose": "^5.13.2",
+    "winston": "~2.4.0"
+  }
+}
