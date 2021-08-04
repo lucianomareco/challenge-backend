@@ -10,6 +10,7 @@ const config = require('config');
 mongoose.connect('mongodb://' + config.get('mongodb.address') + '/' + config.get('mongodb.dbname'), { useNewUrlParser: true, useUnifiedTopology: true });
 require('./utils/initializer').init()
 
+app.use(express.json());
 app.use('/api', require('./routes/stores'));
 
 // Start the server
