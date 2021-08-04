@@ -4,6 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
+    "dev" : "nodemon app.js",
     "run": "node $NODE_DEBUG_OPTION app.js"
   },
   "author": "",
@@ -17,6 +19,7 @@
     "express-validator": "^6.12.0",
     "logger": "0.0.1",
     "mongoose": "^5.13.2",
+    "nodemon": "^2.0.12",
     "winston": "~2.4.0"
   }
 }
