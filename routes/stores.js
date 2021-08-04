@@ -3,12 +3,14 @@ const express = require('express');
 const { route } = require('../app');
 const router = express.Router();
 const StoreSchema = require('../models/store');
+const { getData } = require('../services/stores');
 
 router.route('/stores')
-  .get((req, res) => {
-    console.log(req.query.limit);
-    console.log(req.query.page);
-    res.send('paginacion de express')
+  .get(async (req, res) => {
+    const limit = req.query.limit;
+    const page = req.query.page;
+    dataFound = await getData(limit, page);
+    res.send(dataFound);
   }
   );
 
@@ -19,7 +21,7 @@ router.route('/stores/generate').
       store.name = `Name${i}`;
       store.cuit = `Cuit${i}`;
       store.concept = [];
-      store.currentBalance = i + 100;
+      store.currentBalance = i;
       store.active = true;
       store.save(err => {
         if (err) { return next(err); }
