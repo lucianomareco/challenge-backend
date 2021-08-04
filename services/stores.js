@@ -1,10 +1,12 @@
 const StoreSchema = require('../models/store');
 
-const getData = async (limit, page) => {
-    const dataFound = await StoreSchema.find().limit(limit);
-    return dataFound;
+const getStores = async (req, res) => {
+    const params = req.query.q;
+    const { page, limit } = JSON.parse(params);
+    const storesFound = await StoreSchema.find().limit(limit);
+    res.send(storesFound)
 }
 
 module.exports = {
-    getData
+    getStores
 }
