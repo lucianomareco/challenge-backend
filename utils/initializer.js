@@ -1,8 +1,19 @@
 const User = require('../models/user')
 const logger = require('../utils/logger')
+const StoreSchema = require('../models/store');
 
 exports.init = async function () {
-    if (await User.countDocuments({"username": "test@koibanx.com"})) {
+    for (let i = 0; i < 50; i++) {
+        const store = new StoreSchema;
+        store.name = `Name${i}`;
+        store.cuit = `Cuit${i}`;
+        store.concept = [];
+        store.currentBalance = i;
+        store.active = true;
+        await store.save();
+    };
+
+    if (await User.countDocuments({ "username": "test@koibanx.com" })) {
         return
     }
 
@@ -12,4 +23,6 @@ exports.init = async function () {
     await User.create(user);
 
     logger.info("Test User created")
+
+
 }
