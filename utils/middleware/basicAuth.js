@@ -2,20 +2,27 @@ const auth = require('basic-auth');
 const UserSchema = require('../../models/user')
 
 const autentication = async (req, res, next) => {
-    const user = await auth(req);
+    try {
+        const user = await auth(req);
+        console.log(user.name)
 
-    const userFound = await UserSchema.findOne({ username: user.name })
-    if (!userFound) {
-        //throw new Error('User or password invalid');
-        res.send(401)
-    }
-
-    if (userFound.verifyPassword(user.pass)) {
-        console.log('auth: success');
-        next();
-    } else {
-        console.log('auth: denegated');
-        res.send(401);
+        const userFound = await UserSchema.findOne({ username: user.name })
+        console.log(userFound)
+        if (!userFound) {
+            res.status(401).json({
+                error: 'invalid user or password'
+            })
+        }
+        if (userFound.verifyPassword(user.pass)) {
+            console.log('auth: success');
+            next();
+        } else {
+            res.status(401).json({
+                error: 'invalid user or password'
+            })
+        }
+    } catch (err) {
+        next(err)
     }
 }
 
