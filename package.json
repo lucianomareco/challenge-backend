@@ -5,13 +5,14 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev" : "nodemon app.js",
+    "dev": "nodemon app.js",
     "run": "node $NODE_DEBUG_OPTION app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.0",
+    "basic-auth": "^2.0.1",
     "bcrypt-nodejs": "0.0.3",
     "config": "^3.3.6",
     "dotenv": "^10.0.0",

@@ -3,14 +3,15 @@ const StoreSchema = require('../models/store');
 
 
 const getStores = async (req, res) => {
-    const params = req.query.q;
-    const { page, limit } = JSON.parse(params);
-    const total = await StoreSchema.count({});
+    const { page, limit } = JSON.parse(req.query.q);
+    const total = await StoreSchema.countDocuments({});
     const pages = Math.ceil(total / limit);
-    const storesFound = await StoreSchema.find().limit(limit);
+    const docsToSkip = limit * (page - 1);
+    const storesFound = await StoreSchema.find().skip(docsToSkip).limit(limit);
     const response = {
         data: storesFound,
-        pages: pages,
+        page: page,
+        pages: pages - 1,
         limit: limit,
         total: total
     }
@@ -18,7 +19,6 @@ const getStores = async (req, res) => {
 }
 
 const createStore = async (req, res) => {
-    console.log(req.body);
     const store = new StoreSchema(req.body);
     const storeSaved = await store.save();
     res.json(storeSaved);
