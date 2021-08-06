@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
+    "test": "jest --silent",
+    "test:watch": "npm run test -- --watch",
     "run": "node $NODE_DEBUG_OPTION app.js"
   },
   "author": "",
@@ -22,5 +24,9 @@
     "mongoose": "^5.13.2",
     "nodemon": "^2.0.12",
     "winston": "~2.4.0"
+  },
+  "devDependencies": {
+    "jest": "^27.0.6",
+    "supertest": "^6.1.4"
   }
 }
