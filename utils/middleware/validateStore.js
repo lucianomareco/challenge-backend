@@ -55,19 +55,19 @@ const validateCurrentBalance = currentBalance => {
 const validateActive = active => {
     if (active == null) {
         throw new ValidationError('active is required');
-    } else if (!(active === 'Sí' || active === 'Si' || active === 'No')) {
-        throw new ValidationError('active must be "Sí" or "No"');
+    } else if (!typeof (active) === Boolean) {
+        throw new ValidationError('active must be true or false');
     }
 }
 
 const validateLastSale = date => {
-    const regexDate = /^(0[1-9]|1\d|2\d|3[01])\/(0[1-9]|1[0-2])\/([0-9][0-9])$/;
+    const regexDate = /^([0-9]{4})\/(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])$/;
 
     if (date == null) {
         throw new ValidationError('lastSale is required');
     }
     if (!regexDate.test(date))
-        throw new ValidationError('lastSale follows dd/mm/yy format');
+        throw new ValidationError('lastSale follows yyyy/mm/dd format');
 }
 
 module.exports = validateStore
