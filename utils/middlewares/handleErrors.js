@@ -2,6 +2,9 @@ const ERROR_HANDLERS = {
   ValidationError: (res, { message }) =>
     res.status(409).send({ error: message }),
 
+  DomainError: (res, { message }) =>
+    res.status(409).send({ error: message }),
+
   QueryValidationError: (res, { message }) =>
     res.status(409).send({ error: message }),
 

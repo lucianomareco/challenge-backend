@@ -1,10 +1,3 @@
-class ValidationError extends Error {
-    constructor(message) {
-        super(message);
-        this.name = 'ValidationError';
-    }
-}
-
 const validateStore = (req, res, next) => {
     try {
         const { name, cuit, concepts, currentBalance, active, lastSale } = req.body;
