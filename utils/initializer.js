@@ -23,10 +23,11 @@ const seed = async () => {
     for (let i = 0; i < 50; i++) {
         const store = new StoreSchema;
         store.name = `Name${i}`;
-        store.cuit = `Cuit${i}`;
+        store.cuit = `11122233344`;
         store.concept = [];
         store.currentBalance = i;
         store.active = true;
+        store.lastSale = '2020/01/23';
         await store.save();
     };
 }
