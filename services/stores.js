@@ -1,19 +1,19 @@
 const StoreSchema = require('../models/store');
-
+const DomainError = require('../utils/errors/domainError');
 
 
 const getStores = async (req, res, next) => {
     try {
         const { page, limit } = JSON.parse(req.query.q);
         const total = await StoreSchema.countDocuments({});
-        const pages = Math.ceil(total / limit);
-        const docsToSkip = limit * (page - 1);
+        const pages = calcateTotalPages(total, limit);
+        const docsToSkip = calculatePageToSkip(limit, page);
         const storesFound = await StoreSchema.find().skip(docsToSkip).limit(limit);
         const storesFormatted = formatAllStores(storesFound);
         const response = {
             data: storesFormatted,
             page: page,
-            pages: pages - 1,
+            pages: pages,
             limit: limit,
             total: total
         }
@@ -21,6 +21,17 @@ const getStores = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
+}
+
+const calcateTotalPages = (total, limit) => {
+    if (limit == 0) {
+        throw new DomainError("If limit is 0, the number of pages will be infinite")
+    }
+    return Math.ceil(total / limit);
+}
+
+const calculatePageToSkip = (limit, page) => {
+    return limit * (page - 1);
 }
 
 const createStore = async (req, res, next) => {
@@ -35,34 +46,51 @@ const createStore = async (req, res, next) => {
 };
 
 const formatAllStores = stores => {
-    console.log('entro al fromatAllStore')
     const storesFormatted = stores.map(store => storeFormatter(store))
     return storesFormatted;
 }
 
 const storeFormatter = store => {
-    console.log(typeof (store))
     const storeString = JSON.stringify(store);
     let storeJson = JSON.parse(storeString);
+
+    storeJson.currentBalance = currentBalanceFormatter(storeJson.currentBalance);
+
+    storeJson.active = activeFormatter(storeJson.active);
+
+    storeJson.lastSale = lastSaleFormatter(storeJson.lastSale);
+
+    return storeJson;
+}
+
+
+const currentBalanceFormatter = value => {
 
     const numberFormater = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD'
     })
+    return numberFormater.format(value);
+}
 
-    storeJson.currentBalance = numberFormater.format(storeJson.currentBalance);
+const activeFormatter = value => {
+    value
+        ? value = 'Si'
+        : value = 'No';
+    return value
+}
 
-    storeJson.active
-        ? storeJson.active = 'Si'
-        : storeJson.active = 'No';
-
-    storeJson.lastSale = storeJson.lastSale.slice(0, 10).replace(new RegExp('-', "g"), '/');
-    console.log(storeJson)
-    return storeJson;
+const lastSaleFormatter = value => {
+    return value.slice(0, 10).replace(new RegExp('-', "g"), '/')
 }
 
 module.exports = {
     getStores,
-    createStore
+    createStore,
+    storeFormatter,
+    activeFormatter,
+    lastSaleFormatter,
+    currentBalanceFormatter,
+    calcateTotalPages,
+    calculatePageToSkip
 }
-
