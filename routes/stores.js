@@ -2,6 +2,7 @@ const logger = require('../utils/logger');
 const express = require('express');
 const router = express.Router();
 const autentication = require('../utils/middleware/basicAuth');
+const validateStore = require('../utils/middleware/validateStore');
 const {
   getStores,
   createStore
@@ -9,6 +10,6 @@ const {
 
 router.route('/stores').get(autentication, getStores);
 
-router.route('/stores').post(autentication, createStore);
+router.route('/stores').post(autentication, validateStore, createStore);
 
 module.exports = router;
