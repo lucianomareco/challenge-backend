@@ -1,3 +1,5 @@
+const QueryValidationError = require('../errors/queryValidationError')
+
 const validateStoresQuery = (req, res, next) => {
     try {
         const regexQuery = /( *{ *"page" *: *) *(\d)+ *(, *"limit" *: *) *(\d)+ *}/;
@@ -9,7 +11,5 @@ const validateStoresQuery = (req, res, next) => {
         next(err);
     }
 }
-
-
 
 module.exports = validateStoresQuery

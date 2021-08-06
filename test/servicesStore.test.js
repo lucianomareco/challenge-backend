@@ -1,3 +1,6 @@
+const DomainError = require('../utils/errors/domainError');
+const ValidationError = require('../utils/errors/validationError');
+
 const {
     getStores,
     createStore,
@@ -8,6 +11,16 @@ const {
     calcateTotalPages,
     calculatePageToSkip
 } = require('../services/stores');
+
+const {
+    validateStore,
+    validateLastSale,
+    validateConcepts,
+    validateCuit,
+    validateCurrentBalance,
+    validateName,
+    validateActive
+} = require('../utils/middlewares/validateStore');
 
 const storeForStoreFormatter = {
     "name": "Esperanza Roman",
@@ -56,11 +69,96 @@ describe('storeFormatter', () => {
 })
 
 describe('calcateTotalPages', () => {
-    test('of total = 101 and limit = 10', () => {
+    test('of total = 101 and limit = 10 should be "11"', () => {
         expect(calcateTotalPages(101, 10)).toBe(11)
     })
-
-    test('of total = 100 and limit = 0', () => {
-        expect(calcateTotalPages(101, 10)).toBe(11)
+    test('of limit = 0 should throw a DomainError  ', () => {
+        expect(() => calcateTotalPages(100, 0)).toThrow(DomainError);
     })
 })
+
+describe('calculatePageToSkip', () => {
+    test('of limit = 5 and page = 21 should be 100', () => {
+        expect(calculatePageToSkip(5, 21)).toBe(100);
+    })
+})
+
+describe('validateLastSale', () => {
+    test('of 2015/04/30 should not throw a ValidationError', () => {
+        expect(() => validateLastSale('2015/04/30')).not.toThrow(ValidationError)
+    })
+    test('of 2015/04/32 should throw a ValidationError', () => {
+        expect(() => validateLastSale('2015/04/32')).toThrow(ValidationError)
+    })
+    test('of 2015-04-32 should throw a ValidationError', () => {
+        expect(() => validateLastSale('2015-04-32')).toThrow(ValidationError)
+    })
+    test('of undefined should throw a ValidationError', () => {
+        expect(() => validateLastSale()).toThrow(ValidationError)
+    })
+})
+
+describe('validateCurrentBalance', () => {
+    test('of 1000 should not throw a ValidationError', () => {
+        expect(() => validateCurrentBalance(1000)).not.toThrow(ValidationError)
+    })
+    test('of undefined should not throw a ValidationError', () => {
+        expect(() => validateCurrentBalance()).toThrow(ValidationError)
+    })
+    test('of string should not throw a ValidationError', () => {
+        expect(() => validateCurrentBalance('1000')).toThrow(ValidationError)
+    })
+})
+
+describe('validateActive', () => {
+    test('of true should not throw a ValidationError', () => {
+        expect(() => validateActive(true)).not.toThrow(ValidationError)
+    })
+    test('of a string should throw a ValidationError', () => {
+        expect(() => validateActive('true')).toThrow(ValidationError)
+    })
+    test('of undefined should throw a ValidationError', () => {
+        expect(() => validateActive()).toThrow(ValidationError)
+    })
+})
+
+describe('validateName', () => {
+    test('of valid name should not throw a ValidationError', () => {
+        expect(() => validateName('Monica Lopez 84')).not.toThrow(ValidationError)
+    })
+    test('of invalid name should throw a ValidationError', () => {
+        expect(() => validateName('Monica lopez 84 $')).toThrow(ValidationError)
+    })
+
+    test('of undefined should throw a ValidationError', () => {
+        expect(() => validateName()).toThrow(ValidationError)
+    })
+})
+
+describe('validateConcepts', () => {
+    test('of valid concepts should not throw a ValidationError', () => {
+        expect(() => validateConcepts([])).not.toThrow(ValidationError);
+    })
+    test('of invalid concepts should throw a ValidationError', () => {
+        expect(() => validateConcepts('[]')).toThrow(ValidationError);
+    })
+    test('of undefined concepts should throw a ValidationError', () => {
+        expect(() => validateConcepts()).toThrow(ValidationError);
+    })
+})
+
+describe('validateCuil', () => {
+    test('of a cuil with 11 digits should not throw a Validarion Error', () => {
+        expect(() => validateCuit('20423533049')).not.toThrow(ValidationError);
+    })
+    test('of a cuil with 12 digits should throw a Validarion Error', () => {
+        expect(() => validateCuit('204235330499')).toThrow(ValidationError);
+    })
+    test('of undefined should throw a Validarion Error', () => {
+        expect(() => validateCuit('204235330499')).toThrow(ValidationError);
+    })
+    test('of a cuil with invalid characters should throw a Validarion Error', () => {
+        expect(() => validateCuit('20423533!499')).toThrow(ValidationError);
+    })
+})
+

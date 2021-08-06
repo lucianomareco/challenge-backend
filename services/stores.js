@@ -25,7 +25,7 @@ const getStores = async (req, res, next) => {
 
 const calcateTotalPages = (total, limit) => {
     if (limit == 0) {
-        throw new DomainError("If limit is 0, the number of pages will be infinite")
+        throw new DomainError("If limit is 0, the number of pages will be infinite");
     }
     return Math.ceil(total / limit);
 }

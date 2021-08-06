@@ -1,8 +1,8 @@
-class DomainError extends Error {
+class ValidationError extends Error {
     constructor(message) {
         super(message);
-        this.name = 'DomainError';
+        this.name = 'ValidationError';
     }
 }
 
-module.exports = DomainError;
+module.exports = ValidationError;

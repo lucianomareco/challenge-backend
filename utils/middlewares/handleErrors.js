@@ -13,7 +13,8 @@ const ERROR_HANDLERS = {
 
   defaultError: (res, error) => {
     console.error(error.name)
-    res.status(500).end()
+    console.error(error.message)
+    res.status(500).send("Internal error")
   }
 }
 
