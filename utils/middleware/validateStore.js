@@ -24,52 +24,50 @@ const validateName = name => {
     const regexName = /^[a-zA-Z-0-9 ]+$/;
 
     if (name == null) {
-        throw new ValidationError('Name is required');
+        throw new ValidationError('name is required');
     } else if (!regexName.test(name))
-        throw new ValidationError('Name only can contain letras, numbers and spaces');
+        throw new ValidationError('name only can contain letras, numbers and spaces');
 };
 
 const validateCuit = cuit => {
     const regexCuit = /^[0-9]{11}$/;
 
     if (cuit == null) {
-        throw new ValidationError('Cuit is required');
+        throw new ValidationError('cuit is required');
     } else if (!regexCuit.test(cuit))
-        throw new ValidationError('Cuit must have 11 digits');
+        throw new ValidationError('cuit must have 11 digits');
 }
 
 const validateConcepts = concepts => {
     if (concepts == null) {
-        throw new ValidationError('Concepts is required');
+        throw new ValidationError('concepts is required');
     } else if (!Array.isArray(concepts))
-        throw new ValidationError('Concepts must be an array');
+        throw new ValidationError('concepts must be an array');
 }
 
 const validateCurrentBalance = currentBalance => {
     if (currentBalance == null) {
-        throw new ValidationError('Current balance is required');
-    } else if (!typeOf(currentBalance) === Number)
-        throw new ValidationError('Current balance must be a number');
+        throw new ValidationError('currentBalance is required');
+    } else if (!typeof (currentBalance) === Number)
+        throw new ValidationError('currentBalance must be a number');
 }
 
 const validateActive = active => {
     if (active == null) {
-        throw new ValidationError('Active is required');
+        throw new ValidationError('active is required');
     } else if (!(active === 'Sí' || active === 'Si' || active === 'No')) {
-        throw new ValidationError('Active must be "Sí" or "No"');
+        throw new ValidationError('active must be "Sí" or "No"');
     }
 }
 
 const validateLastSale = date => {
-    const regexDate = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(0[1-9]|1[1-9]|2[1-9])$/;
+    const regexDate = /^(0[1-9]|1\d|2\d|3[01])\/(0[1-9]|1[0-2])\/([0-9][0-9])$/;
 
     if (date == null) {
-        throw new ValidationError('Last sale is required');
+        throw new ValidationError('lastSale is required');
     }
     if (!regexDate.test(date))
-        throw new ValidationError('Last sale follows dd/mm/yy format');
+        throw new ValidationError('lastSale follows dd/mm/yy format');
 }
 
-module.exports = {
-    validateStore
-}
+module.exports = validateStore
