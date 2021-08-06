@@ -2,7 +2,7 @@ const logger = require('../utils/logger');
 const express = require('express');
 const router = express.Router();
 const autentication = require('../utils/middlewares/basicAuth');
-const validateStore = require('../utils/middlewares/validateStore');
+const { validateStore } = require('../utils/middlewares/validateStore');
 const validateStoresQuery = require('../utils/middlewares/validateStoresQuery');
 const {
   getStores,
