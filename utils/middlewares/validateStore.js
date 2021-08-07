@@ -61,7 +61,10 @@ const validateNumbersOfConcepts = concepts => {
     for (let i = 1; i < 7; i++) {
         validNumbersOfConcept.push(i);
     }
-    return JSON.stringify(validNumbersOfConcept) == JSON.stringify(numbersOfConcept);
+
+    return validNumbersOfConcept.every(number => {
+        return numbersOfConcept.includes(number)
+    })
 }
 
 const validateCurrentBalance = currentBalance => {

@@ -2,8 +2,6 @@ const DomainError = require('../utils/errors/domainError');
 const ValidationError = require('../utils/errors/validationError');
 
 const {
-    getStores,
-    createStore,
     storeFormatter,
     activeFormatter,
     lastSaleFormatter,
@@ -28,7 +26,30 @@ const storeForStoreFormatter = {
     "currentBalance": 1483,
     "cuit": 12984867004,
     "lastSale": "2015-03-17T03:18:51 +03:00",
-    "concepts": []
+    "concepts": [{
+        "number": 2,
+        "value": 54,
+    },
+    {
+        "number": 1,
+        "value": 41,
+    },
+    {
+        "number": 3,
+        "value": 10,
+    },
+    {
+        "number": 5,
+        "value": 78,
+    },
+    {
+        "number": 6,
+        "value": 98,
+    },
+    {
+        "number": 4,
+        "value": 3,
+    }]
 }
 
 describe('currentBalanceFormatter', () => {
@@ -63,7 +84,32 @@ describe('storeFormatter', () => {
             "currentBalance": "$1,483.00",
             "cuit": 12984867004,
             "lastSale": "2015/03/17",
-            "concepts": []
+            "concepts": [{
+                "number": 1,
+                "value": 41,
+            },
+            {
+                "number": 2,
+                "value": 54,
+            },
+
+            {
+                "number": 3,
+                "value": 10,
+            },
+            {
+                "number": 4,
+                "value": 3,
+            },
+            {
+                "number": 5,
+                "value": 78,
+            },
+            {
+                "number": 6,
+                "value": 98,
+            }
+            ]
         })
     })
 })
@@ -137,13 +183,35 @@ describe('validateName', () => {
 
 describe('validateConcepts', () => {
     test('of valid concepts should not throw a ValidationError', () => {
-        expect(() => validateConcepts([])).not.toThrow(ValidationError);
+        expect(() => validateConcepts([
+            {
+                "number": 2,
+                "value": 54,
+            },
+            {
+                "number": 1,
+                "value": 41,
+            },
+            {
+                "number": 3,
+                "value": 10,
+            },
+            {
+                "number": 5,
+                "value": 78,
+            },
+            {
+                "number": 6,
+                "value": 98,
+            },
+            {
+                "number": 4,
+                "value": 3,
+            }
+        ])).not.toThrow(ValidationError);
     })
     test('of invalid concepts should throw a ValidationError', () => {
-        expect(() => validateConcepts('[]')).toThrow(ValidationError);
-    })
-    test('of undefined concepts should throw a ValidationError', () => {
-        expect(() => validateConcepts()).toThrow(ValidationError);
+        expect(() => validateConcepts([])).toThrow(ValidationError);
     })
 })
 

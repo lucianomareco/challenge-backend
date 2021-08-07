@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "jest --silent",
+    "test": "jest --silent ",
     "test:watch": "npm run test -- --watch",
-    "run": "node $NODE_DEBUG_OPTION app.js"
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",

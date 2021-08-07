@@ -54,15 +54,25 @@ const storeFormatter = store => {
     const storeString = JSON.stringify(store);
     let storeJson = JSON.parse(storeString);
 
+    storeJson.concepts = concepsFormatter(storeJson.concepts)
     storeJson.currentBalance = currentBalanceFormatter(storeJson.currentBalance);
-
     storeJson.active = activeFormatter(storeJson.active);
-
     storeJson.lastSale = lastSaleFormatter(storeJson.lastSale);
 
     return storeJson;
 }
 
+const concepsFormatter = concepts => {
+    let conceptsOrdered = []
+    for (let i = 1; i < 7; i++) {
+        for (let j = 0; j < 6; j++) {
+            if (concepts[j].number == i) {
+                conceptsOrdered.push(concepts[j])
+            }
+        }
+    }
+    return conceptsOrdered;
+}
 
 const currentBalanceFormatter = value => {
 
