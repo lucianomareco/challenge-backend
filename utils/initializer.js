@@ -20,11 +20,36 @@ exports.init = async function () {
 
 
 const seed = async () => {
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 10; i++) {
         const store = new StoreSchema;
         store.name = `Name${i}`;
         store.cuit = `11122233344`;
-        store.concept = [];
+        store.concepts = [
+            {
+                "number": 1,
+                "value": i,
+            },
+            {
+                "number": 2,
+                "value": i,
+            },
+            {
+                "number": 3,
+                "value": i,
+            },
+            {
+                "number": 4,
+                "value": i,
+            },
+            {
+                "number": 5,
+                "value": i,
+            },
+            {
+                "number": 6,
+                "value": i,
+            }
+        ];
         store.currentBalance = i;
         store.active = true;
         store.lastSale = '2020/01/23';

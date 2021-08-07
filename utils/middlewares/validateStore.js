@@ -36,8 +36,32 @@ const validateCuit = cuit => {
 const validateConcepts = concepts => {
     if (!concepts) {
         throw new ValidationError('concepts is required');
-    } else if (!Array.isArray(concepts))
+    }
+    if (!Array.isArray(concepts))
         throw new ValidationError('concepts must be an array');
+    if (concepts.length != 6)
+        throw new ValidationError('concepts must have six elements');
+    if (!validateNumbersOfConcepts(concepts))
+        throw new ValidationError('the concepts must be numbered from 1 to 6');
+    if (!validateValueOfConcepts(concepts))
+        throw new ValidationError('the value of concepts must be a number');
+
+}
+
+const validateValueOfConcepts = concept => {
+    return concept.every(concept => {
+        return typeof concept.value == 'number';
+    })
+}
+
+
+const validateNumbersOfConcepts = concepts => {
+    let numbersOfConcept = concepts.map(concept => concept.number);
+    var validNumbersOfConcept = [];
+    for (let i = 1; i < 7; i++) {
+        validNumbersOfConcept.push(i);
+    }
+    return JSON.stringify(validNumbersOfConcept) == JSON.stringify(numbersOfConcept);
 }
 
 const validateCurrentBalance = currentBalance => {
